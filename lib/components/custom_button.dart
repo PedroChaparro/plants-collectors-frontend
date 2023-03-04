@@ -34,8 +34,7 @@ class CustomButton extends StatelessWidget {
         onPressed: () {
           onPressedCallback();
         },
-        child:
-            const Text('SIGN UP', style: TextStyle(color: Color(0xff01d25a))),
+        child: Text(label, style: const TextStyle(color: Color(0xff01d25a))),
       ),
     );
   }

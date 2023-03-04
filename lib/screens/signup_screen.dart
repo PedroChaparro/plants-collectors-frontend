@@ -156,7 +156,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               CustomButton(
                                   label: 'Login',
                                   onPressedCallback: () {
-                                    print('Login button');
+                                    Navigator.pushNamed(context, '/login');
                                   },
                                   buttonType: "primaryOutline")
                             ]),

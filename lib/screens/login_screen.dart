@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plants_collectors/components/custom_button.dart';
 import 'package:plants_collectors/components/custom_form_input.dart';
+import 'package:plants_collectors/services/session.services.dart';
+import 'package:plants_collectors/utils/utils.dart';
+
+final sessionServices = SessionServices();
+final utils = Utils();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,8 +56,42 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // -- Submit function
-  void _onSubmit() {
-    print("Submit login form");
+  void _onSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      final response = await sessionServices.login(_username, _password);
+
+      if (response["error"] == true || response["error"] == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response["message"] ??
+                "An error occured, please try again later"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else {
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login successfully"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Save the tokens in the shared preferences
+        if (response["accessToken"] != null) {
+          await utils.saveToSharedPreferences(
+              'accessToken', response["accessToken"], 'string');
+        }
+
+        if (response["refreshToken"] != null) {
+          await utils.saveToSharedPreferences(
+              'refreshToken', response["refreshToken"], 'string');
+        }
+
+        // Redirect to the plants view
+        Navigator.pushNamed(context, "/home");
+      }
+    }
   }
 
   // -- Ui

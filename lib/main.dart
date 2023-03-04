@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:plants_collectors/screens/login_screen.dart';
 import 'package:plants_collectors/screens/signup_screen.dart';
 
 Future<void> main() async {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/signup',
       routes: {
         '/signup': (context) => const SignupScreen(),
+        '/login': (context) => const LoginScreen(),
       },
     );
   }

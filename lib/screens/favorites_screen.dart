@@ -56,11 +56,29 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 
-  void _onBottomNavigationItemTapped(int index) {
+  void _onBottomNavigationItemTapped(int index) async {
     if (index == 0) {
       Navigator.pushNamed(context, '/home');
     } else if (index == 1) {
       Navigator.pushNamed(context, '/favorites');
+    } else if (index == 2) {
+      // Logout
+      final response = await sessionService.logout();
+
+      if (response['error'] != null && response['error'] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response["message"] ??
+              "An error occured, please try again later"),
+          backgroundColor: Colors.red,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("You have been logged out"),
+          backgroundColor: Colors.green,
+        ));
+
+        _redirectToLogin();
+      }
     }
   }
 
@@ -106,6 +124,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               ),
               label: 'Favorites',
             ),
+            BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'Logout')
           ],
           currentIndex: 1,
           selectedItemColor: const Color(0xff01d25a),

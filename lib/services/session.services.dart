@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:plants_collectors/services/sqlite.services.dart';
 import 'package:plants_collectors/utils/utils.dart';
 
 final utils = Utils();
+final sqliteServices = SqliteServices();
 
 class SessionServices {
   // Get the API base URL from the .env file
@@ -95,5 +97,20 @@ class SessionServices {
     }
 
     return responseData;
+  }
+
+  Future<Map<String, dynamic>> logout() async {
+    try {
+      // Remove favorites from sqlite
+      await sqliteServices.deleteAllFavorites();
+      // Remove access token from shared preferences
+      await utils.removeFromSharedPreferences("accessToken");
+      // Remove refresh token from shared preferences
+      await utils.removeFromSharedPreferences("refreshToken");
+
+      return {"error": false, "message": "Logout successful"};
+    } catch (e) {
+      return {"error": true, "message": "Logout failed"};
+    }
   }
 }

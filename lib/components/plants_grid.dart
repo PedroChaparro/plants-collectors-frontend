@@ -38,6 +38,7 @@ class PlantsGrid extends StatelessWidget {
             // Plant "body"
             Container(
               margin: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.all(4.0),
               child: Column(
                 children: [
                   Text(

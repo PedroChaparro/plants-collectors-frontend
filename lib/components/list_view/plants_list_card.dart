@@ -24,7 +24,7 @@ class _PlantsListCardState extends State<PlantsListCard> {
   // -- functions
   void _checkIfFavorite() async {
     // Set 2s timeout
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     final plant = await sqliteServices.getFavorite(widget.plant.plandId);
     var isFavorite = false;

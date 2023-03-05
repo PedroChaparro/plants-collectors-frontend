@@ -28,43 +28,55 @@ class PlantsGrid extends StatelessWidget {
         margin: const EdgeInsets.all(8.0),
 
         // Plant card
-        child: Column(
+        // Use a stack so we can position the heart icon on top of the plant
+        child: Stack(
           children: [
-            // Plant image
-            Expanded(
-              child: Image.network("$apiBaseUrl${plant.imageEndpoint}",
-                  fit: BoxFit.contain),
-            ),
-            // Plant "body"
-            Container(
-              margin: const EdgeInsets.only(top: 8.0),
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                children: [
-                  Text(
-                    plant.plantName,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Seller: ${plant.ownerUsername}",
-                      style: const TextStyle(color: Color(0xFF6D6D6D)),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center horizontally
+            // Plant information
+            Column(
+              children: [
+                // Plant image
+                Expanded(
+                  child: Image.network("$apiBaseUrl${plant.imageEndpoint}",
+                      fit: BoxFit.contain),
+                ),
+                // Plant "body"
+                Container(
+                  margin: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
                     children: [
                       Text(
-                        "Rating: ${plant.averageRate.toString()}",
-                        style: const TextStyle(color: Color(0xFF6D6D6D)),
+                        plant.plantName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      const Icon(Icons.star, color: Colors.yellow),
+                      Container(
+                        margin: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "Seller: ${plant.ownerUsername}",
+                          style: const TextStyle(color: Color(0xFF6D6D6D)),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center, // Center horizontally
+                        children: [
+                          Text(
+                            "Rating: ${plant.averageRate.toString()}",
+                            style: const TextStyle(color: Color(0xFF6D6D6D)),
+                          ),
+                          const Icon(Icons.star, color: Colors.yellow),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
+            ),
+            // Heart icon
+            const Positioned(
+              top: 8.0,
+              right: 8.0,
+              child: Icon(Icons.favorite, color: Colors.red),
             ),
           ],
         ),

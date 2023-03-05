@@ -97,15 +97,21 @@ class _LoginScreenState extends State<LoginScreen> {
         final favorites = await userServices.getFavorites();
         await sqliteServices.deleteAllFavorites(); // Remove previous favorites
 
+        // final initSqliteFavorites = await sqliteServices.getFavorites();
+        // print(initSqliteFavorites);
+
         if (favorites["error"] != null && favorites["error"] == false) {
           for (var favorite in favorites["favorites"]) {
             sqliteServices.insertFavorite(Plant(
                 plandId: favorite["plant_id"],
                 plantName: favorite["plant_name"],
-                averageRate: favorite["average_rate"],
+                averageRate: double.parse(favorite['average_rate'].toString()),
                 ownerUsername: favorite["owner_username"],
                 imageEndpoint: favorite["image_endpoint"]));
           }
+
+          // final finalSqliteFavorites = await sqliteServices.getFavorites();
+          // print(finalSqliteFavorites);
 
           Navigator.pushNamed(context, "/home");
         } else {

@@ -43,21 +43,17 @@ class _PlantsListCardState extends State<PlantsListCard> {
           await userServices.deleteFromFavorites(widget.plant.plandId);
 
       // If the request was successful, remove the plant from sqlite
-      if (response['error'] == 'false') {
+      if (response['error'] == false) {
         await sqliteServices.deleteFavorite(widget.plant.plandId);
       }
-
-      print('Plant removed from favorites');
     } else {
       // Send the POST request to the api
       final response = await userServices.addToFavorites(widget.plant.plandId);
 
       // If the request was successful, add the plant to sqlite
-      if (response['error'] == 'false') {
+      if (response['error'] == false) {
         await sqliteServices.insertFavorite(widget.plant);
       }
-
-      print('Plant added to favorites');
     }
 
     setState(() => _isFavorite = !_isFavorite);

@@ -136,8 +136,9 @@ class _PlantsGridCardState extends State<PlantsGridCard> {
                           Container(
                             margin: const EdgeInsets.only(top: 8.0),
                             child: Text(
-                              "Seller: ${widget.plant.ownerUsername}",
+                              "By: ${widget.plant.ownerUsername}",
                               style: const TextStyle(color: Color(0xFF6D6D6D)),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Row(

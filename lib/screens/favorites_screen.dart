@@ -4,20 +4,21 @@ import 'package:plants_collectors/components/list_view/plants_list.dart';
 import 'package:plants_collectors/schemas/schemas.dart';
 import 'package:plants_collectors/services/products.services.dart';
 import 'package:plants_collectors/services/session.services.dart';
+import 'package:plants_collectors/services/sqlite.services.dart';
 import 'package:plants_collectors/utils/utils.dart';
 
 final utils = Utils();
 final sessionService = SessionServices();
-final productsService = ProductsServices();
+final sqliteServices = SqliteServices();
 
-class PlanstHome extends StatefulWidget {
-  const PlanstHome({super.key});
+class FavoritesScreen extends StatefulWidget {
+  const FavoritesScreen({super.key});
 
   @override
-  State<PlanstHome> createState() => _PlanstHomeState();
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _PlanstHomeState extends State<PlanstHome> {
+class _FavoritesScreenState extends State<FavoritesScreen> {
   List<Plant> _plants = [];
   bool _showGridView = true;
 
@@ -43,18 +44,24 @@ class _PlanstHomeState extends State<PlanstHome> {
   }
 
   Future<void> _loadPlants() async {
-    final plants = await productsService.getPlants();
+    // Get the plants from sqlite
+    final plantsRaw = await sqliteServices.getFavorites();
+
+    // Parse to plant objects
+    final plants = plantsRaw
+        .map((plant) => Plant(
+              plandId: plant["plant_id"],
+              plantName: plant["plant_name"],
+              ownerUsername: plant["owner_username"],
+              averageRate: plant["average_rate"],
+              imageEndpoint: plant["image_endpoint"],
+            ))
+        .toList();
 
     // Update the state with the plants
     setState(() {
       _plants = plants;
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _checkIfUserIsLoggedIn();
   }
 
   void _onBottomNavigationItemTapped(int index) {
@@ -63,6 +70,12 @@ class _PlanstHomeState extends State<PlanstHome> {
     } else if (index == 1) {
       Navigator.pushNamed(context, '/favorites');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfUserIsLoggedIn();
   }
 
   @override
@@ -102,7 +115,7 @@ class _PlanstHomeState extends State<PlanstHome> {
               label: 'Favorites',
             ),
           ],
-          currentIndex: 0,
+          currentIndex: 1,
           selectedItemColor: const Color(0xff01d25a),
           onTap: _onBottomNavigationItemTapped,
         ));

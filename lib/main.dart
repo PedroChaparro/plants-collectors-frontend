@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:plants_collectors/screens/favorites_screen.dart';
 import 'package:plants_collectors/screens/login_screen.dart';
 import 'package:plants_collectors/screens/plants_home.dart';
 import 'package:plants_collectors/screens/signup_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/login': (context) => const LoginScreen(),
         "/home": (context) => const PlanstHome(),
+        '/favorites': (context) => const FavoritesScreen(),
       },
     );
   }

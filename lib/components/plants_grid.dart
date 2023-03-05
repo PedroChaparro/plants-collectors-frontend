@@ -31,7 +31,7 @@ class PlantsGrid extends StatelessWidget {
         child: Column(
           children: [
             // Plant image
-            FittedBox(
+            Expanded(
               child: Image.network("$apiBaseUrl${plant.imageEndpoint}",
                   fit: BoxFit.contain),
             ),

@@ -83,14 +83,14 @@ class SessionServices {
     if (responseData["error"] != null &&
         responseData["error"] == true &&
         // If the error is 403 (Forbidden)
-        response.statusCode == 403) {
-      if (iteration == 1) {
-        final refreshResponse = await refresh();
-        if (refreshResponse["error"] != null &&
-            refreshResponse["error"] == false) {
-          // If the refresh was successful, try to verify again
-          return verify(iteration: iteration + 1);
-        }
+        response.statusCode == 403 &&
+        iteration == 1) {
+      final refreshResponse = await refresh();
+
+      if (refreshResponse["error"] != null &&
+          refreshResponse["error"] == false) {
+        // If the refresh was successful, try to verify again
+        return verify(iteration: iteration + 1);
       }
     }
 

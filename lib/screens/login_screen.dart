@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:plants_collectors/components/custom_button.dart';
 import 'package:plants_collectors/components/custom_form_input.dart';
 import 'package:plants_collectors/services/session.services.dart';
+import 'package:plants_collectors/services/sqlite.services.dart';
+import 'package:plants_collectors/services/user.services.dart';
 import 'package:plants_collectors/utils/utils.dart';
 
 final sessionServices = SessionServices();
+final userServices = UserServices();
+final sqliteServices = SqliteServices();
 final utils = Utils();
 
 class LoginScreen extends StatefulWidget {
@@ -71,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         // Show a success message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Login successfully"),
             backgroundColor: Colors.green,
           ),
@@ -88,8 +92,31 @@ class _LoginScreenState extends State<LoginScreen> {
               'refreshToken', response["refreshToken"], 'string');
         }
 
-        // Redirect to the plants view
-        Navigator.pushNamed(context, "/home");
+        // Get the user favorites and save them in sqlite
+        final favorites = await userServices.getFavorites();
+        await sqliteServices.deleteAllFavorites(); // Remove previous favorites
+
+        if (favorites["error"] != null && favorites["error"] == false) {
+          for (var favorite in favorites["favorites"]) {
+            sqliteServices.insertFavorite({
+              "plant_id": favorite["plant_id"],
+              "plant_name": favorite["plant_name"],
+              "average_rate": favorite["average_rate"],
+              "owner_username": favorite["owner_username"],
+              "image_endpoint": favorite["image_endpoint"],
+            });
+          }
+
+          Navigator.pushNamed(context, "/home");
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                  "An error ocurred while getting your favorites, please try again later."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plants_collectors/components/custom_button.dart';
 import 'package:plants_collectors/components/custom_form_input.dart';
+import 'package:plants_collectors/schemas/schemas.dart';
 import 'package:plants_collectors/services/session.services.dart';
 import 'package:plants_collectors/services/sqlite.services.dart';
 import 'package:plants_collectors/services/user.services.dart';
@@ -98,13 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (favorites["error"] != null && favorites["error"] == false) {
           for (var favorite in favorites["favorites"]) {
-            sqliteServices.insertFavorite({
-              "plant_id": favorite["plant_id"],
-              "plant_name": favorite["plant_name"],
-              "average_rate": favorite["average_rate"],
-              "owner_username": favorite["owner_username"],
-              "image_endpoint": favorite["image_endpoint"],
-            });
+            sqliteServices.insertFavorite(Plant(
+                plandId: favorite["plant_id"],
+                plantName: favorite["plant_name"],
+                averageRate: favorite["average_rate"],
+                ownerUsername: favorite["owner_username"],
+                imageEndpoint: favorite["image_endpoint"]));
           }
 
           Navigator.pushNamed(context, "/home");

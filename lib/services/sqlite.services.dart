@@ -1,3 +1,4 @@
+import 'package:plants_collectors/schemas/schemas.dart';
 import 'package:sqflite/sqflite.dart';
 
 var database = openDatabase(
@@ -14,19 +15,19 @@ var database = openDatabase(
 );
 
 class SqliteServices {
-  Future<void> insertFavorite(Map<String, dynamic> plant) async {
-    print('Inserting plant: ${plant['plant_name']}');
+  Future<void> insertFavorite(Plant plant) async {
+    print('Inserting plant: ${plant.plantName}');
 
     // Get a reference to the database.
     final Database db = await database;
 
     // Insert
     await db.execute("INSERT INTO favorite VALUES(?, ?, ?, ?, ?)", [
-      plant['plant_id'],
-      plant['plant_name'],
-      plant['average_rate'],
-      plant['owner_username'],
-      plant['image_endpoint']
+      plant.plandId,
+      plant.plantName,
+      plant.averageRate,
+      plant.ownerUsername,
+      plant.imageEndpoint
     ]);
 
     print('Plant inserted');
@@ -36,6 +37,13 @@ class SqliteServices {
     // Get a reference to the database.
     final Database db = await database;
     final List<Map<String, dynamic>> maps = await db.query('favorite');
+    return maps;
+  }
+
+  Future<List<Map<String, dynamic>>> getFavorite(int id) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('favorite', where: "plant_id = ?", whereArgs: [id]);
     return maps;
   }
 

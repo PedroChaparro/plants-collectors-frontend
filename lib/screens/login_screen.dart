@@ -102,12 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (favorites["error"] != null && favorites["error"] == false) {
           for (var favorite in favorites["favorites"]) {
-            sqliteServices.insertFavorite(Plant(
-                plandId: favorite["plant_id"],
-                plantName: favorite["plant_name"],
-                averageRate: double.parse(favorite['average_rate'].toString()),
-                ownerUsername: favorite["owner_username"],
-                imageEndpoint: favorite["image_endpoint"]));
+            sqliteServices.insertFavorite(Plant.fromJson(favorite));
           }
 
           // final finalSqliteFavorites = await sqliteServices.getFavorites();

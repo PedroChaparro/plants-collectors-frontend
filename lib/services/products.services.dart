@@ -25,13 +25,7 @@ class ProductsServices {
           ? double.parse(plant['average_rate'].toString())
           : 0.0;
 
-      plants.add(Plant(
-        plandId: plant['plant_id'],
-        plantName: plant['plant_name'],
-        averageRate: averageRate,
-        ownerUsername: plant['owner_username'],
-        imageEndpoint: plant['image_endpoint'],
-      ));
+      plants.add(Plant.fromJson(plant));
     }
 
     return plants;

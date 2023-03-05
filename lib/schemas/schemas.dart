@@ -7,6 +7,17 @@ class Plant {
   String ownerUsername;
   String imageEndpoint;
 
+  // This method is used to convert the Plant object to a Map
+  static Plant fromJson(Map<String, dynamic> json) {
+    return Plant(
+      plandId: json['plant_id'],
+      plantName: json['plant_name'],
+      averageRate: double.parse(json['average_rate'].toString()),
+      ownerUsername: json['owner_username'],
+      imageEndpoint: json['image_endpoint'],
+    );
+  }
+
   Plant({
     required this.plandId,
     required this.plantName,

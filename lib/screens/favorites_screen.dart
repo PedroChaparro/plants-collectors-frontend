@@ -48,15 +48,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     final plantsRaw = await sqliteServices.getFavorites();
 
     // Parse to plant objects
-    final plants = plantsRaw
-        .map((plant) => Plant(
-              plandId: plant["plant_id"],
-              plantName: plant["plant_name"],
-              ownerUsername: plant["owner_username"],
-              averageRate: plant["average_rate"],
-              imageEndpoint: plant["image_endpoint"],
-            ))
-        .toList();
+    final plants = plantsRaw.map((plant) => Plant.fromJson(plant)).toList();
 
     // Update the state with the plants
     setState(() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plants_collectors/components/plants_grid.dart';
-import 'package:plants_collectors/components/plants_list.dart';
+import 'package:plants_collectors/components/grid_view/plants_grid.dart';
+import 'package:plants_collectors/components/list_view/plants_list.dart';
 import 'package:plants_collectors/schemas/schemas.dart';
 import 'package:plants_collectors/services/products.services.dart';
 import 'package:plants_collectors/services/session.services.dart';

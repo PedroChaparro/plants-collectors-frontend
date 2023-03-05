@@ -40,20 +40,26 @@ class PlantsGrid extends StatelessWidget {
               margin: const EdgeInsets.only(top: 8.0),
               child: Column(
                 children: [
-                  Text(plant.plantName),
                   Text(
-                    "Seller: ${plant.ownerUsername}",
-                    style: const TextStyle(color: Color(0xFF6D6D6D)),
+                    plant.plantName,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "Seller: ${plant.ownerUsername}",
+                      style: const TextStyle(color: Color(0xFF6D6D6D)),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment:
                         MainAxisAlignment.center, // Center horizontally
                     children: [
-                      const Icon(Icons.star, color: Colors.yellow),
                       Text(
-                        plant.averageRate.toString(),
+                        "Rating: ${plant.averageRate.toString()}",
                         style: const TextStyle(color: Color(0xFF6D6D6D)),
-                      )
+                      ),
+                      const Icon(Icons.star, color: Colors.yellow),
                     ],
                   )
                 ],
@@ -69,7 +75,7 @@ class PlantsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: GridView.count(
               crossAxisCount: 2,
               // This is kinda hardcoded, Grind view's elemest MUST have a fixed

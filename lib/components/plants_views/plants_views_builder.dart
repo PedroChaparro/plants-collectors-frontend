@@ -11,8 +11,8 @@ class PlantsViewsBuilder {
 
     return GridView.count(
       crossAxisCount: 2,
-      // This is kinda hardcoded, Grind view's elemest MUST have a fixed
-      // apsect ratio. TODO: Find a better way to do this
+      // This is kinda hardcoded, Grind view elemest MUST have a fixed
+      // apsect ratio.
       childAspectRatio: 0.725,
       children: plantsGridViewCards,
     );

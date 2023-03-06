@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plants_collectors/components/grid_view/plants_grid.dart';
-import 'package:plants_collectors/components/list_view/plants_list.dart';
+import 'package:plants_collectors/components/plants_views/plants_views_builder.dart';
 import 'package:plants_collectors/schemas/schemas.dart';
-import 'package:plants_collectors/services/products.services.dart';
 import 'package:plants_collectors/services/session.services.dart';
 import 'package:plants_collectors/services/sqlite.services.dart';
 import 'package:plants_collectors/utils/utils.dart';
@@ -107,8 +105,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           // Wrap the list/grid in a expanded widget to make it scrollable and growable
           Expanded(
               child: _showGridView
-                  ? PlantsGrid(plants: _plants)
-                  : PlantsList(plants: _plants))
+                  ? PlantsViewsBuilder.buildGridView(_plants)
+                  : PlantsViewsBuilder.buildListView(_plants))
         ])),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
